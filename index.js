@@ -7,7 +7,6 @@ const cors = require("cors");
 const { createClient } = require("@supabase/supabase-js");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 // Initialize Supabase client
 
