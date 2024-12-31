@@ -30,16 +30,18 @@ const app = express();
 const port = process.env.PORT || 4000;
 app.use(cors());
 // Middleware
-app.use(cors({ origin: "https://airosofts.com" })); // Restrict to your domain
+// app.use(cors({ origin: "https://airosofts.com" })); // Restrict to your domain
 app.use(express.static(path.join(__dirname))); // Serve static files
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "dashboard.html"));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
+
 async function sendProfessionalEmail(email, password) {
   try {
     const transporter = nodemailer.createTransport({
@@ -428,15 +430,14 @@ async function sendExistingUserEmail(email) {
   }
 }
 app.get("/api/user-subscriptions", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  let mailAccount = req.headers.mailaccount;
 
-  if (!token) {
+  if (!mailAccount) {
     return res.status(401).json({ error: "Unauthorized. Token is missing." });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
+    const  email  = mailAccount;
 
     if (!email) {
       return res.status(400).json({ error: "User email is required!" });
@@ -510,15 +511,13 @@ app.get("/cancel", async (req, res) => {
 });
 app.get("/customers", async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    let mailAccount = req.headers.mailaccount;
 
-    if (!token) {
+    if (!mailAccount) {
       return res.status(401).json({ error: "Unauthorized. Token is missing." });
     }
 
-    // Verify the JWT token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
+    const  email = mailAccount;
 
     if (!email) {
       return res.status(400).json({ error: "Email is required in the token." });
@@ -575,17 +574,13 @@ app.post("/login", async (req, res) => {
     }
 
     // Generate a JWT with email and stripe_customer_id
-    const token = jwt.sign(
-      { email: data.email, stripe_customer_id: data.stripe_customer_id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expiration
-    );
-
+    console.log(email);
     res.send({
       success: true,
-      token,
+      email:email,
       redirectUrl: "http://localhost:4000/dashboard.html",
     });
+
   } catch (error) {
     console.error("Error validating user:", error);
     res.status(500).send({ success: false, message: "Internal server error." });
@@ -593,15 +588,14 @@ app.post("/login", async (req, res) => {
 });
 app.post("/api/change-password", async (req, res) => {
   const { currentPassword, newPassword } = req.body;
-  const token = req.headers.authorization?.split(" ")[1];
+  let mailAccount = req.headers.mailaccount;
 
-  if (!token) {
+  if (!mailAccount) {
     return res.status(401).json({ error: "Unauthorized. Token is missing." });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
+    const email = mailAccount;
 
     // Fetch user details from Supabase
     const { data: user, error } = await supabase
@@ -639,15 +633,15 @@ app.post("/api/change-password", async (req, res) => {
 });
 
 app.get("/api/user-details", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
-
-  if (!token) {
+  let mailAccount = req.headers.mailaccount;
+  console.log('mail account is: ', mailAccount);
+  if (!mailAccount) {
     return res.status(401).json({ error: "Unauthorized. Token is missing." });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
+    const  email = mailAccount;
+    console.log('mail account is: ', email);
 
     // Fetch user details from the customers table
     const { data: customer, error } = await supabase
@@ -671,15 +665,14 @@ app.get("/api/user-details", async (req, res) => {
 });
 
 app.get("/api/available-softwares", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  let mailAccount = req.headers.mailaccount;
 
-  if (!token) {
+  if (!mailAccount) {
     return res.status(401).json({ error: "Unauthorized. Token is missing." });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = decoded;
+    const  email  = mailAccount;
 
     // Fetch the customer ID using the email
     const { data: user, error: userError } = await supabase
