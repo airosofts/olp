@@ -30,7 +30,6 @@ const app = express();
 const port = process.env.PORT || 4000;
 app.use(cors());
 // Middleware
-// app.use(cors({ origin: "https://airosofts.com" })); // Restrict to your domain
 app.use(express.static(path.join(__dirname))); // Serve static files
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // Parse JSON bodies
@@ -56,39 +55,39 @@ async function sendProfessionalEmail(email, password) {
     const emailTemplate = `
       <div style="font-family: 'Roboto', Arial, sans-serif; max-width: 700px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <!-- Header -->
-        <div style="background-color: #D74B3F; padding: 20px; text-align: center; color: white; font-size: 24px; font-weight: bold; border-bottom: 2px solid #e5e7eb;">
-          Welcome to AiroSofts
+        <div style="background-color: #7c7ff3; padding: 20px; text-align: center; color: white; font-size: 24px; font-weight: bold; border-bottom: 2px solid #e5e7eb;">
+          Welcome to Omni Lead Pro
         </div>
 
         <!-- Body -->
         <div style="padding: 30px; background-color: #ffffff; line-height: 1.8; color: #333;">
           <p style="font-size: 16px; margin-bottom: 20px;">Dear Valued Customer,</p>
-          <p style="font-size: 16px; margin-bottom: 20px;">Thank you for choosing <strong>AiroSofts</strong> as your automation partner. We're excited to have you on board and are dedicated to supporting your automation journey.</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Thank you for choosing <strong>Omni Lead Pro</strong> as your automation partner. We're excited to have you on board and are dedicated to supporting your automation journey.</p>
 
           <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; background-color: #f9f9f9; margin-bottom: 30px;">
-            <h2 style="font-size: 18px; color: #D74B3F; margin-bottom: 15px;">Your Login Credentials</h2>
+            <h2 style="font-size: 18px; color: #7c7ff3; margin-bottom: 15px;">Your Login Credentials</h2>
             <p style="margin: 0; font-size: 16px;"><strong>Email:</strong> ${email}</p>
             <p style="margin: 0; font-size: 16px;"><strong>Password:</strong> ${password}</p>
           </div>
 
           <p style="font-size: 16px; margin-bottom: 20px;">You can log in to your dashboard to access your purchased products:</p>
           <div style="text-align: center; margin-top: 20px;">
-            <a href="https://dashboard.airosofts.com" style="background-color: #D74B3F; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">Login to Dashboard</a>
+            <a href="https://web.omnilead.pro" style="background-color: #7c7ff3; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">Login to Dashboard</a>
           </div>
         </div>
 
         <!-- Footer -->
         <div style="background-color: #f3f4f6; padding: 20px; text-align: center; font-size: 14px; color: #6b7280; border-top: 1px solid #e5e7eb;">
           <p style="margin: 0;">If you did not request this email, please ignore it or contact our support team.</p>
-          <p style="margin: 0; margin-top: 10px;">&copy; 2024 AiroSofts. All rights reserved.</p>
+          <p style="margin: 0; margin-top: 10px;">&copy; 2024 Omni Lead Pro. All rights reserved.</p>
         </div>
       </div>
     `;
 
     const mailOptions = {
-      from: `"AiroSofts Support" <${process.env.EMAIL_USER}>`,
+      from: `"Omni Lead Pro Support" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Welcome to AiroSofts - Your Login Credentials",
+      subject: "Welcome to Omni Lead Pro - Your Login Credentials",
       html: emailTemplate,
     };
 
@@ -101,12 +100,9 @@ async function sendProfessionalEmail(email, password) {
 }
 
 const plans = {
-  prod1_basic: "price_1QbWMxG8ztKaoxw1xzE9ziiE",
-  prod1_pro: "price_1QbWNMG8ztKaoxw1vQpSMZqY",
-  prod1_professional: "price_1QbWNmG8ztKaoxw1Z19xCzdH",
-  prod2_basic: "price_1QboJ3G8ztKaoxw1mNpNfjCe",
-  prod2_pro: "price_1QboJ3G8ztKaoxw1bbYC0GuI",
-  prod2_professional: "price_1QboJ3G8ztKaoxw15oEULSBc",
+  prod1_basic: "price_1QeSqjG8ztKaoxw1zAoTTAOM",
+  prod1_pro: "price_1QeSsVG8ztKaoxw1Dhk9mx5d",
+  prod1_professional: "price_1QeSsVG8ztKaoxw1LMmPw6Eo",
 };
 
 
@@ -351,7 +347,7 @@ app.get("/success", async (req, res) => {
     }
 
     console.log("Customer, subscription, and user data saved successfully.");
-    res.redirect("https://www.airosofts.com/thank-you");
+    res.redirect("https://omnilead.pro/thankyou.html");
   } catch (error) {
     console.error("Error retrieving session or saving data:", error);
     res.status(500).send("An unexpected error occurred.");
@@ -386,39 +382,38 @@ async function sendExistingUserEmail(email) {
         pass: process.env.EMAIL_PASSWORD, // Your email password
       },
     });
-
     // Email template for existing users
     const emailTemplate = `
       <div style="font-family: 'Roboto', Arial, sans-serif; max-width: 700px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); overflow: hidden;">
         <!-- Header -->
-        <div style="background-color: #D74B3F; padding: 20px; text-align: center; color: white; font-size: 24px; font-weight: bold; border-bottom: 2px solid #e5e7eb;">
+        <div style="background-color: #7c7ff3; padding: 20px; text-align: center; color: white; font-size: 24px; font-weight: bold; border-bottom: 2px solid #e5e7eb;">
           Thank You for Your Purchase!
         </div>
 
         <!-- Body -->
         <div style="padding: 30px; background-color: #ffffff; line-height: 1.8; color: #333;">
           <p style="font-size: 16px; margin-bottom: 20px;">Dear Valued Customer,</p>
-          <p style="font-size: 16px; margin-bottom: 20px;">Thank you for choosing <strong>AiroSofts</strong> again. We're excited to continue supporting your automation journey.</p>
+          <p style="font-size: 16px; margin-bottom: 20px;">Thank you for choosing <strong>Omni Lead Pro</strong> again. We're excited to continue supporting your automation journey.</p>
 
           <p style="font-size: 16px; margin-bottom: 20px;">As you are already an existing user, you can log in to your dashboard to access your purchased products and manage your subscription:</p>
 
           <div style="text-align: center; margin-top: 20px;">
-            <a href="https://dashboard.airosofts.com" style="background-color: #D74B3F; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">Login to Dashboard</a>
+            <a href="https://web.omnilead.pro" style="background-color: #7c7ff3; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">Login to Dashboard</a>
           </div>
         </div>
 
         <!-- Footer -->
         <div style="background-color: #f3f4f6; padding: 20px; text-align: center; font-size: 14px; color: #6b7280; border-top: 1px solid #e5e7eb;">
           <p style="margin: 0;">If you have any questions, please contact our support team.</p>
-          <p style="margin: 0; margin-top: 10px;">&copy; 2024 AiroSofts. All rights reserved.</p>
+          <p style="margin: 0; margin-top: 10px;">&copy; 2024 Omni Lead Pro. All rights reserved.</p>
         </div>
       </div>
     `;
 
     const mailOptions = {
-      from: `"AiroSofts Support" <${process.env.EMAIL_USER}>`,
+      from: `"Omni Lead Pro Support" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Thank You for Your Purchase - AiroSofts",
+      subject: "Thank You for Your Purchase - Omni Lead Pro",
       html: emailTemplate,
     };
 
@@ -507,7 +502,7 @@ app.get("/api/user-subscriptions", async (req, res) => {
 
 // Cancel
 app.get("/cancel", async (req, res) => {
-  res.redirect("https://www.airosofts.com/");
+  res.redirect("https://www.omnilead.pro/");
 });
 app.get("/customers", async (req, res) => {
   try {
@@ -578,7 +573,7 @@ app.post("/login", async (req, res) => {
     res.send({
       success: true,
       email:email,
-      redirectUrl: "http://localhost:4000/dashboard.html",
+      redirectUrl: "https://web.omnilead.pro/dashboard.html",
     });
 
   } catch (error) {
@@ -589,7 +584,7 @@ app.post("/login", async (req, res) => {
 app.post("/api/change-password", async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   let mailAccount = req.headers.mailaccount;
-
+  console.log(mailAccount)
   if (!mailAccount) {
     return res.status(401).json({ error: "Unauthorized. Token is missing." });
   }
